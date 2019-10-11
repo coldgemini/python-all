@@ -1,0 +1,11 @@
+print("{0} {1}".format(1, 2))
+'{:10}'.format('tests')
+'{:>10}'.format('tests')
+'{:_<10}'.format('tests')
+'{:^10}'.format('tests')
+
+'{:d}'.format(42)
+'{:4d}'.format(42)
+'{:04d}'.format(42)
+'{:f}'.format(3.141592653589793)
+'{:06.2f}'.format(3.141592653589793)

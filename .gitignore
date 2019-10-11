@@ -1,0 +1,6 @@
+tmp/
+logs/
+data/
+.idea/
+.pytest_cache
+**/__pycache__/

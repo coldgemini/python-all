@@ -1,9 +1,13 @@
+"""
+crop nrrd by annotated discrete points
+"""
 import numpy as np
 import os
 # from util import get_center_lines
 # from util import test_get_center_lines
 from pypacks.ops3D.centerlines import get_centerlines_by_points
-from util import expand_along_curves
+from pypacks.ops3D.centerlines import expand_along_curves
+# from util import expand_along_curves
 import nrrd
 from joblib import Parallel, delayed
 import argparse
@@ -13,6 +17,7 @@ parser.add_argument("-s", "--src", type=str, help="src image")
 parser.add_argument("--srcmsk", type=str, help="mask image")
 parser.add_argument("-d", "--dst", type=str, help="dst image")
 parser.add_argument("--dstmsk", type=str, help="mask image")
+parser.add_argument("-f", "--field", type=str, help="displacement field dir")
 parser.add_argument("-c", "--precline", type=str, help="cline dir")
 parser.add_argument("-l", "--list", type=str, help="processing list")
 parser.add_argument("-n", "--n_jobs", type=int, default=40, help="parallel jobs")
@@ -21,6 +26,7 @@ parser.add_argument("-p", "--parallel", action='store_true', default=False, help
 args = parser.parse_args()
 srcdir = args.src
 dstdir = args.dst
+field_dir = args.field
 srcmskdir = args.srcmsk
 dstmskdir = args.dstmsk
 preclinedir = args.precline
@@ -45,6 +51,7 @@ def crop_along_cline(filename):
 
     srcpath = os.path.join(srcdir, filename)
     dstpath = os.path.join(dstdir, filename)
+    field_path = os.path.join(field_dir, filename)
     clinepath = os.path.join(preclinedir, filename)
     if srcmskdir:
         srcmskpath = os.path.join(srcmskdir, filename)
@@ -75,10 +82,13 @@ def crop_along_cline(filename):
     # print(len(srcmsk_results))
 
     src_rst = src_results[0][0]
+    src_dp_field = src_results[0][1]
     src_rst = src_rst.astype(np.int32)
     src_rst = np.transpose(src_rst, (1, 2, 0))
     nrrd.write(dstpath, src_rst)
-    if srcmskdir:
+    nrrd.write(field_path, src_dp_field)
+
+    if srcmskdir:  # src with mask
         msk_rst = srcmsk_results[0][0]
         # print(type(msk_rst))
         msk_rst = msk_rst.astype(np.int16)

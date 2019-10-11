@@ -1,1 +1,1 @@
-print("test ver0")
+print("tests ver0")
