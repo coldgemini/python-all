@@ -1,8 +1,8 @@
 # read listfile
-input_res_file = open(filelist, "r")
-file_lines = input_res_file.readlines()
+input_list_file = open(filelist, "r")
+file_lines = input_list_file.readlines()
 file_lines = [line.rstrip() for line in file_lines]
-input_res_file.close()
+input_list_file.close()
 
 from glob import glob
 pair_list = glob('{}/*.nii.gz'.format(self.traindata_dir))

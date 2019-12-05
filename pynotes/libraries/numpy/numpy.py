@@ -20,6 +20,7 @@ list.append(image)
 batch = np.stack(list)
 
 np.count_nonzero(a == 1)
+cline_points_zaxis = np.sum(cross_sect_cline_label, axis=(0, 1))
 
 srcmsk_1d = np.sum(srcmsk_data, axis=(0, 1))
 
